@@ -15,7 +15,7 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-DATA_FILE = Path(__file__).resolve().parent] / "q-vercel-latency.json"
+DATA_FILE = Path(__file__).resolve().parent / "q-vercel-latency.json"
 
 
 class MetricsRequest(BaseModel):

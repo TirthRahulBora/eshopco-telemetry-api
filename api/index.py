@@ -8,12 +8,7 @@ from pydantic import BaseModel
 
 app = FastAPI()
 
-app.add_middleware(
-    CORSMiddleware,
-    allow_origins=["*"],
-    allow_methods=["POST", "OPTIONS"],
-    allow_headers=["*"],
-)
+
 
 DATA_FILE = Path(__file__).resolve().parent / "q-vercel-latency.json"
 
@@ -77,3 +72,9 @@ def calculate_metrics(request: MetricsRequest):
         }
 
     return result
+app = CORSMiddleware(
+    app,
+    allow_origins=["*"],
+    allow_methods=["*"],
+    allow_headers=["*"],
+)

@@ -36,7 +36,7 @@ def percentile95(values):
 @app.post("/api/latency")
 @app.post("/{path:path}")
 def calculate_metrics(request: MetricsRequest):
-def calculate_metrics(request: MetricsRequest):
+
     try:
         with open(DATA_FILE, encoding="utf-8") as f:
             records = json.load(f)

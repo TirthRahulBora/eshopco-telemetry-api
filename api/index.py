@@ -1,5 +1,4 @@
 import json
-import os
 import math
 from pathlib import Path
 
@@ -16,7 +15,7 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-DATA_FILE = Path(__file__).resolve().parents[1] / "telemetry.json"
+DATA_FILE = Path(__file__).resolve().parents[1] / "q-vercel-latency.json"
 
 
 class MetricsRequest(BaseModel):
@@ -25,15 +24,17 @@ class MetricsRequest(BaseModel):
 
 
 def percentile95(values):
+    values = sorted(values)
     if not values:
         return None
-    values = sorted(values)
+
     position = 0.95 * (len(values) - 1)
     lower = math.floor(position)
     upper = math.ceil(position)
-    return values[lower] + (values[upper] - values[lower]) * (
-        position - lower
-    )
+
+    return values[lower] + (
+        values[upper] - values[lower]
+    ) * (position - lower)
 
 
 @app.post("/")
@@ -62,7 +63,7 @@ def calculate_metrics(request: MetricsRequest):
             )
 
         latencies = [float(r["latency_ms"]) for r in rows]
-        uptimes = [float(r["uptime"]) for r in rows]
+        uptimes = [float(r["uptime_pct"]) for r in rows]
 
         result[region] = {
             "avg_latency": sum(latencies) / len(latencies),

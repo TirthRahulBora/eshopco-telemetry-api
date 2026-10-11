@@ -1,0 +1,1 @@
+# eshopco-telemetry-api

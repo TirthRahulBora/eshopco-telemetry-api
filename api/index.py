@@ -15,7 +15,7 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-DATA_FILE = Path(__file__).resolve().parents[1] / "q-vercel-latency.json"
+DATA_FILE = Path(__file__).resolve().parent] / "q-vercel-latency.json"
 
 
 class MetricsRequest(BaseModel):
@@ -43,6 +43,7 @@ def calculate_metrics(request: MetricsRequest):
         with open(DATA_FILE, encoding="utf-8") as f:
             records = json.load(f)
     except (OSError, json.JSONDecodeError):
+        
         raise HTTPException(
             status_code=500,
             detail="Unable to load telemetry data"
